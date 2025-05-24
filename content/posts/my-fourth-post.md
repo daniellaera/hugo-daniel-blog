@@ -1,1 +1,1 @@
-# daniel's fourth post test
+# daniel's fourth post test zzzzzgit commit -m "Add empty static folder"
