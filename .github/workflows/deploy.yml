@@ -28,17 +28,21 @@ jobs:
           username: daniellaera
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Delete Existing Tag (if any)
-        run: |
-          git push --delete origin v${{ github.run_number }} || true
-
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: v${{ github.run_number }}
-          name: Release v${{ github.run_number }}
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ github.run_number }}"
+          release_name: "Release v${{ github.run_number }}"
+          body: |
+            Automated release for commit ${{ github.sha }}
+
+            Docker images available:
+            - `daniellaera/hugo-site:latest`
+            - `daniellaera/hugo-site:${{ github.sha }}`
+          draft: false
+          prerelease: false
 
       - name: Build and Push Hugo Image (Multi-Arch)
         uses: docker/build-push-action@v5
