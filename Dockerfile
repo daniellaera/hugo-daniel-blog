@@ -1,11 +1,14 @@
-FROM hugomods/hugo:exts AS builder
-WORKDIR /src
-COPY config.toml .
-COPY content ./content/
-COPY layouts ./layouts/
-COPY themes ./themes/
+# Stage 1
+FROM alpine:latest AS build
+RUN apk add --no-cache hugo
+
+WORKDIR /opt/HugoApp
+COPY . .
 RUN hugo --minify
 
-FROM hugomods/hugo:nginx
-COPY --from=builder /src/public /site
-RUN chown -R nginx:nginx /site && chmod -R 755 /site
+# Stage 2
+FROM nginx:alpine
+COPY --from=build /opt/HugoApp/public /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
