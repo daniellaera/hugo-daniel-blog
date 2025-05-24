@@ -1,0 +1,12 @@
+services:
+  private-website-server:
+      image: hugomods/hugo:latest
+      container_name: private-website-server
+      restart: always
+      command: "hugo server -p 6969 --bind 0.0.0.0"
+      ports:
+        - "6969:6969"
+      expose:
+        - 6969
+      volumes:
+         - .:/src

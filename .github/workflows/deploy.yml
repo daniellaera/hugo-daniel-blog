@@ -1,0 +1,69 @@
+name: Hugo CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (ARM64 support)
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: daniellaera
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "v${{ github.run_number }}"
+          release_name: "Release v${{ github.run_number }}"
+          body: |
+            Automated release for commit ${{ github.sha }}
+
+            Docker images available:
+            - `daniellaera/hugo-site:latest`
+            - `daniellaera/hugo-site:${{ github.sha }}`
+          draft: false
+          prerelease: false
+
+      - name: Build and Push Hugo Image (Multi-Arch)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/arm64,linux/amd64
+          push: true
+          tags: |
+            daniellaera/hugo-site:latest
+            daniellaera/hugo-site:${{ github.sha }}
+
+      - name: Deploy to VPS (ARM64)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_IP }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/hugo-blog
+            docker pull --platform linux/arm64 daniellaera/hugo-site:latest
+            docker compose down || true
+            docker compose up -d
+            docker image prune -f
