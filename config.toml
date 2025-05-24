@@ -1,4 +1,4 @@
-baseURL = "http://localhost:6969/"
+baseURL = "https://daniellaera.com/"
 languageCode = "en-us"
 title = "My Hugo Blog"
 theme = "PaperMod"
