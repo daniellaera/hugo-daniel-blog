@@ -1,23 +1,55 @@
-:root {
-  --bg: #ffffff;
-  --text: #111111;
+/* Light theme colors */
+:root[data-theme="light"] {
+  --bg-color: white;
+  --text-color: black;
 }
-[data-theme="dark"] {
-  --bg: #111111;
-  --text: #ffffff;
+
+/* Dark theme colors */
+:root[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #eaeaea;
 }
+
 body {
-  background-color: var(--bg);
-  color: var(--text);
-  font-family: sans-serif;
-  padding: 2rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Add some basic styling for content visibility */
+  min-height: 100vh; /* Ensure body takes full height */
+  margin: 0;
+  padding: 2rem; /* Add some padding so content isn't stuck to edges */
+  box-sizing: border-box; /* Include padding in element's total width and height */
+  font-family: 'Inter', sans-serif; /* Consistent font */
 }
-a {
-  color: var(--text);
-  margin-right: 1rem;
-}
+
+/* Theme toggle button styles */
 .theme-toggle {
   position: fixed;
   top: 1rem;
   right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2.5rem; /* Larger for better visibility */
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 1000; /* Ensure button is on top */
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: Style for content within your pages to show theme change */
+.content-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--text-color); /* Invert for contrast */
+    color: var(--bg-color); /* Invert for contrast */
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }

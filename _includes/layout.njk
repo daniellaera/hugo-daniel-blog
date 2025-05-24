@@ -1,5 +1,45 @@
-{% extends "base.njk" %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or "My Blog" }}</title>
+  
+  <link rel="stylesheet" href="/css/style.css" />
+  
+  <script>
+    // Immediately apply the saved theme from localStorage before rendering page.
+    // This prevents a "flash of unstyled content" (FOUC).
+    (function() {
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme) {
+          document.documentElement.setAttribute('data-theme', theme);
+        }
+      } catch (e) {
+        console.error("Error reading theme from localStorage:", e);
+      }
+    })();
+  </script>
+</head>
+<body>
+  <button class="theme-toggle" aria-label="Toggle dark/light mode" onclick="
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    try {
+      localStorage.setItem('theme', nextTheme);
+    } catch(e) {
+      console.error('Error saving theme to localStorage:', e);
+    }
+  ">🌓</button>
 
-{% block content %}
-  {{ content | safe }}
-{% endblock %}
+  {% include "partials/header.njk" %}
+  
+  <main class="content-wrapper">
+    {{ content | safe }}
+  </main>
+
+  {% include "partials/footer.njk" %}
+</body>
+</html>

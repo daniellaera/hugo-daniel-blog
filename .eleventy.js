@@ -1,15 +1,16 @@
-const { DateTime } = require("luxon");
-
 module.exports = function(eleventyConfig) {
-  // Register 'date' filter with Luxon formatting
-  eleventyConfig.addFilter("date", (dateObj, format = "yyyy") => {
-    return DateTime.fromJSDate(dateObj).toFormat(format);
+  // Register currentYear filter to return the current year as a string
+  eleventyConfig.addFilter("currentYear", () => {
+    return new Date().getFullYear().toString();
   });
+
+  eleventyConfig.addPassthroughCopy("css");
 
   return {
     dir: {
       input: ".",
       includes: "_includes",
+      layouts: "_includes",
       output: "_site"
     }
   };
