@@ -51,6 +51,8 @@ jobs:
           file: ./Dockerfile
           platforms: linux/arm64,linux/amd64
           push: true
+          build-args: |
+            HUGO_BASEURL=https://daniellaera.com
           tags: |
             daniellaera/hugo-site:latest
             daniellaera/hugo-site:${{ github.sha }}

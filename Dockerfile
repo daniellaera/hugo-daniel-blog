@@ -1,10 +1,15 @@
-# Build Hugo site
-FROM hugomods/hugo:latest AS builder
+# ------------------ Build Stage ------------------
+FROM hugomods/hugo:exts as builder
+
+ARG HUGO_BASEURL
+ENV HUGO_BASEURL=${HUGO_BASEURL}
+
 WORKDIR /src
 COPY . .
+
 RUN hugo --minify
 
-# Serve with nginx
-FROM nginx:alpine
-COPY --from=builder /src/public /usr/share/nginx/html
-EXPOSE 80
+# ------------------ Final Stage ------------------
+FROM hugomods/hugo:nginx
+
+COPY --from=builder /src/public /site
