@@ -1,8 +1,11 @@
 # Stage 1: build Hugo site
 FROM hugomods/hugo:latest AS builder
 WORKDIR /src
+
 COPY . .
-RUN hugo
+
+# Ensure clean build
+RUN rm -rf public && hugo
 
 # Stage 2: serve with nginx
 FROM nginx:alpine
