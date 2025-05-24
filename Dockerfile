@@ -1,15 +1,11 @@
-# ------------------ Build Stage ------------------
 FROM hugomods/hugo:exts as builder
-
-ARG HUGO_BASEURL
-ENV HUGO_BASEURL=${HUGO_BASEURL}
-
 WORKDIR /src
-COPY . .
 
-RUN hugo --minify
+COPY config.toml .
+COPY content ./content/
+COPY themes ./themes/
 
-# ------------------ Final Stage ------------------
+RUN hugo --minify --verbose --debug
+
 FROM hugomods/hugo:nginx
-
 COPY --from=builder /src/public /site
