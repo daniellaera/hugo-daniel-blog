@@ -1,6 +1,8 @@
 ---
-title: My First Post
-date: 2024-01-01
+title: Welcome
+layout: layout.njk
 ---
 
-Hello from Eleventy!
+# Welcome to my Eleventy blog
+
+This is a test of dark/light mode with partials!

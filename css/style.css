@@ -1,23 +1,22 @@
 :root {
-  --bg: #fff;
-  --text: #111;
+  --bg: #ffffff;
+  --text: #111111;
 }
-
 [data-theme="dark"] {
-  --bg: #111;
-  --text: #fff;
+  --bg: #111111;
+  --text: #ffffff;
 }
-
 body {
   background-color: var(--bg);
   color: var(--text);
   font-family: sans-serif;
-  transition: background 0.3s, color 0.3s;
-  margin: 0;
-  padding: 1rem;
+  padding: 2rem;
 }
-
-button.theme-toggle {
+a {
+  color: var(--text);
+  margin-right: 1rem;
+}
+.theme-toggle {
   position: fixed;
   top: 1rem;
   right: 1rem;
