@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title or "My Blog" }}</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    // Save and load theme preference
+    const theme = localStorage.getItem("theme");
+    if (theme) document.documentElement.setAttribute("data-theme", theme);
+  </script>
+</head>
+<body>
+  <button class="theme-toggle" onclick="
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  ">🌓</button>
+
+  {% include "partials/header.njk" %}
+  {{ content | safe }}
+  {% include "partials/footer.njk" %}
+</body>
+</html>

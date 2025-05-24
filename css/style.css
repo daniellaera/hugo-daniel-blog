@@ -1,0 +1,24 @@
+:root {
+  --bg: #fff;
+  --text: #111;
+}
+
+[data-theme="dark"] {
+  --bg: #111;
+  --text: #fff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: sans-serif;
+  transition: background 0.3s, color 0.3s;
+  margin: 0;
+  padding: 1rem;
+}
+
+button.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}

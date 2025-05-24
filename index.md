@@ -1,8 +1,6 @@
 ---
 layout: layout.njk
-title: Home
+title: "Welcome to My Blog"
 ---
 
-# Welcome
-
-This is the Eleventy blog.
+Hello, world! This is my first post built with **Eleventy** and themed with dark/light mode toggle 🌗.
